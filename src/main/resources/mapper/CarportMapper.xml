@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.property.mapper.CarportMapper">
+
+    <resultMap type="cn.property.model.Carport" id="CarportMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="carportNum" column="carport_num" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="buildingId" column="building_id" jdbcType="VARCHAR"/>
+        <result property="isUse" column="is_use" jdbcType="INTEGER"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="userName" column="username"></result>
+        <result property="buildingNumber" column="building_number"></result>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectCarportById" resultMap="CarportMap" parameterType="java.lang.String">
+        select
+        c.*,su.name username,b.building_number building_number
+        from carport c
+        left join sys_user su on c.user_id = su.id and su.is_del = 0
+        left join building b on c.building_id = b.id and b.is_del = 0
+        where c.id = #{id} and c.is_del = 0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectCarportList" resultMap="CarportMap" parameterType="java.util.Map">
+        select
+        c.*,su.name username,b.building_number building_number
+        from carport c
+        left join sys_user su on c.user_id = su.id and su.is_del = 0
+        left join building b on c.building_id = b.id and b.is_del = 0
+        where c.is_del = 0
+        <if test="carportNum != null and carportNum != ''">
+            and carport_num = #{carportNum}
+        </if>
+    </select>
+
+    <insert id="insertCarport" parameterType="cn.property.model.Carport">
+        insert into carport
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="carportNum != null">
+                carport_num,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="buildingId != null">
+                building_id,
+            </if>
+            <if test="isUse != null">
+                is_use,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="carportNum != null">
+                #{carportNum},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="buildingId != null">
+                #{buildingId},
+            </if>
+            <if test="isUse != null">
+                #{isUse},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateCarportById" parameterType="cn.property.model.Carport">
+        update carport
+        <set>
+            <if test="carportNum != null and carportNum != ''">
+                carport_num = #{carportNum},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="buildingId != null and buildingId != ''">
+                building_id = #{buildingId},
+            </if>
+            <if test="isUse != null">
+                is_use = #{isUse},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteCarportById" parameterType="java.lang.String">
+        update carport set is_del = 1 where id = #{id}
+    </delete>
+
+
+    <select id="selectCarportByCarportNum" resultMap="CarportMap" parameterType="java.lang.String">
+        select
+        c.*
+        from carport c
+        where c.carport_num = #{carportNum} and c.is_del = 0
+    </select>
+</mapper>
+

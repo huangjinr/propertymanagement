@@ -1,0 +1,68 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+</head>
+<body>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+    <input type="hidden" name="id" th:value="${carport?.id}">
+    <div class="layui-form-item">
+      <label class="layui-form-label">车位号</label>
+      <div class="layui-input-inline">
+        <input type="text" name="carportNum" th:value="${carport.carportNum}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">车位所在楼号</label>
+      <div class="layui-input-inline">
+        <input type="text" name="buildingNumber" th:value="${carport.buildingNumber}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">用户姓名</label>
+      <div class="layui-input-inline">
+        <input type="text" name="userName" th:value="${carport.userName}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">是否被使用</label>
+      <div class="layui-input-inline">
+        <select name="isUse" lay-verify="required">
+          <option value="">请选择</option>
+          <option th:selected="${carport?.isUse == 1}" value="1">使用中</option>
+          <option th:selected="${carport?.isUse == 0}" value="0">未使用</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-carport-front-submit" id="LAY-carport-front-submit" value="确认">
+    </div>
+  </div>
+
+  <script src="../../layuiadmin/layui/layui.js"></script>
+  <script>
+  layui.config({
+    base: '../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'form', 'upload', 'laydate'], function(){
+    var $ = layui.$
+    ,form = layui.form
+    ,laydate = layui.laydate
+    ,upload = layui.upload ;
+
+
+
+  })
+  </script>
+</body>
+</html>

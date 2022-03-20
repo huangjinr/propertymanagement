@@ -1,0 +1,56 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>维修管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../layuiadmin/style/eleTree/eleTree.css" media="all">
+  <style type="text/css">
+    .eleTree {
+      width: 90%;
+      height: 250px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      overflow-y: auto;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+    <input type="hidden" name="id" th:value="${maintain?.id}">
+    <div class="layui-form-item">
+      <label class="layui-form-label">维修信息</label>
+      <div class="layui-input-block">
+        <textarea name="maintainInfo" th:utext="${maintain.maintainInfo}" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-maintain-front-submit" id="LAY-maintain-front-submit" value="确认">
+    </div>
+  </div>
+
+  <script src="../../../layuiadmin/layui/layui.js"></script>  
+  <script>
+  layui.config({
+    base: '../../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'form', 'laydate', 'maintain'], function(){
+    var $ = layui.$
+    ,form = layui.form
+    ,laydate = layui.laydate
+    ,upload = layui.upload ;
+
+
+  })
+  </script>
+</body>
+</html>

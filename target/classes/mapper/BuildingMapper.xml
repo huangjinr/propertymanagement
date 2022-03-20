@@ -83,5 +83,12 @@
         update building set is_del = 1 where id = #{id}
     </delete>
 
+
+    <select id="selectBuildingByNumber" resultMap="BuildingMap" parameterType="java.lang.String">
+        select
+          id, building_number, building_unit, is_del
+        from building
+        where building_number = #{buildingNumber} and is_del = 0
+    </select>
 </mapper>
 

@@ -89,7 +89,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteNoticeById" parameterType="java.lang.String">
-        update  notice set is_del = 0 where id = #{id}
+        update  notice set is_del = 1 where id = #{id}
     </delete>
 
 </mapper>

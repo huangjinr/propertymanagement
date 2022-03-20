@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.property.mapper.MaintainMapper">
+
+    <resultMap type="cn.property.model.Maintain" id="MaintainMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="maintainInfo" column="maintain_info" jdbcType="VARCHAR"/>
+        <result property="maintainStatus" column="maintain_status" jdbcType="INTEGER"/>
+        <result property="applyTime" column="apply_time" jdbcType="TIMESTAMP"/>
+        <result property="maintainTime" column="maintain_time" jdbcType="TIMESTAMP"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="userName" column="username"></result>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectMaintainById" resultMap="MaintainMap" parameterType="java.lang.String">
+        select
+        m.*,su.name username
+        from maintain m
+        left join sys_user su on m.user_id = su.id and su.is_del = 0
+        where m.id = #{id} and m.is_del = 0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectMaintainList" resultMap="MaintainMap" parameterType="java.util.Map">
+        select
+        m.*,su.name username
+        from maintain m
+        inner join sys_user su on m.user_id = su.id and su.is_del = 0
+        where m.is_del = 0
+    </select>
+
+
+    <insert id="insertMaintain" parameterType="cn.property.model.Maintain">
+        insert into maintain
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="maintainInfo != null">
+                maintain_info,
+            </if>
+            <if test="maintainStatus != null">
+                maintain_status,
+            </if>
+            <if test="applyTime != null">
+                apply_time,
+            </if>
+            <if test="maintainTime != null">
+                maintain_time,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="maintainInfo != null">
+                #{maintainInfo},
+            </if>
+            <if test="maintainStatus != null">
+                #{maintainStatus},
+            </if>
+            <if test="applyTime != null">
+                #{applyTime},
+            </if>
+            <if test="maintainTime != null">
+                #{maintainTime},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateMaintainById" parameterType="cn.property.model.Maintain">
+        update maintain
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="maintainInfo != null and maintainInfo != ''">
+                maintain_info = #{maintainInfo},
+            </if>
+            <if test="maintainStatus != null">
+                maintain_status = #{maintainStatus},
+            </if>
+            <if test="applyTime != null">
+                apply_time = #{applyTime},
+            </if>
+            <if test="maintainTime != null">
+                maintain_time = #{maintainTime},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteMaintainById" parameterType="java.lang.String">
+        update maintain set is_del = 1 where id = #{id}
+    </delete>
+
+</mapper>
+

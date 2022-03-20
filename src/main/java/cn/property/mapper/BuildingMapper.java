@@ -22,4 +22,6 @@ public interface BuildingMapper {
     void deleteBuildingById(String id);
 
     void updateBuildingById(Building building);
+
+    Building selectBuildingByNumber(String buildingNumber);
 }
