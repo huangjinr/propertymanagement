@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.property.mapper.RoleMapper">
+
+    <resultMap id="selectRoleListMap" type="cn.property.model.SysRole">
+        <id property="id" column="id"></id>
+        <result property="roleName" column="role_name"></result>
+        <result property="roleEnName" column="role_en_name"></result>
+        <result property="roleType" column="role_type"></result>
+        <result property="isDel" column="is_del"></result>
+    </resultMap>
+
+
+    <resultMap id="selectRoleListMap_A" type="cn.property.model.SysRole">
+        <id property="id" column="id"></id>
+        <result property="roleName" column="role_name"></result>
+        <result property="roleEnName" column="role_en_name"></result>
+        <result property="roleType" column="role_type"></result>
+        <result property="isDel" column="is_del"></result>
+        <collection property="sysPermissionList" ofType="cn.property.model.SysPermission">
+            <id property="id" column="sp_id"></id>
+            <id property="permissionCode" column="permission_code"></id>
+            <result property="permissionUrl" column="permission_url"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectPermissionCodeById" resultMap="selectRoleListMap_A" parameterType="java.lang.String">
+        SELECT
+            sr.*,sp.id as sp_id,sp.permission_url as permission_url, sp.permission_code as permission_code
+        FROM
+            sys_role sr
+        left join sys_role_permission srp on sr.id = srp.role_id and srp.is_del = 0
+        left join sys_permission sp on srp.permission_id = sp.id and sp.is_del = 0
+        WHERE
+            sr.id = #{id}
+        AND sr.is_del = 0
+    </select>
+
+    <select id="selectRoleIdByRoleType" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT
+            id
+        FROM
+            sys_role
+        WHERE
+            role_type = #{roleType}
+    </select>
+
+    <select id="selectRoleList" resultMap="selectRoleListMap" parameterType="java.util.Map">
+        SELECT
+        sr.*
+        FROM
+        sys_role sr
+        where
+        sr.is_del = 0
+        <if test="roleName != null and roleName != ''">
+            and sr.role_name = #{roleName}
+        </if>
+    </select>
+
+    <insert id="insertRole" parameterType="cn.property.model.SysRole">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="roleEnName != null">
+                role_en_name,
+            </if>
+            <if test="roleType != null">
+                role_type,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="roleName != null">
+                #{roleName},
+            </if>
+            <if test="roleEnName != null">
+                #{roleEnName},
+            </if>
+            <if test="roleType != null">
+                #{roleType},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteRoleById" parameterType="java.lang.String">
+        update sys_role
+        set is_del = 1
+        where id = #{id}
+    </delete>
+
+    <select id="selectRoleAndPermissionById" resultMap="selectRoleListMap_A" parameterType="java.lang.String">
+        SELECT
+            sr.*,srp.permission_id sp_id
+        FROM
+            sys_role sr
+            left join sys_role_permission srp on sr.id = srp.role_id and srp.is_del = 0
+        WHERE
+            sr.id = #{id}
+        AND sr.is_del = 0
+    </select>
+
+    <update id="updateRoleById" parameterType="cn.property.model.SysRole">
+        update sys_role
+        <set>
+            <if test="roleName != null">
+                role_name = #{roleName},
+            </if>
+            <if test="roleEnName != null">
+                role_en_name = #{roleEnName},
+            </if>
+            <if test="roleType != null">
+                role_type = #{roleType},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.property.mapper.ComplaintMapper">
+
+    <resultMap type="cn.property.model.Complaint" id="ComplaintMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="complaintTitle" column="complaint_title" jdbcType="VARCHAR"/>
+        <result property="complaintContent" column="complaint_content" jdbcType="VARCHAR"/>
+        <result property="complaintTime" column="complaint_time" jdbcType="TIMESTAMP"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="userName" column="username"></result>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectComplaintById" resultMap="ComplaintMap" parameterType="java.lang.String">
+        select
+        c.*,su.name username
+        from complaint c
+        inner join sys_user su on c.user_id = su.id and su.is_del = 0
+        where c.id = #{id} and c.is_del = 0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectComplaintList" resultMap="ComplaintMap" parameterType="java.util.Map">
+        select
+        c.*,su.name username
+        from complaint c
+        left join sys_user su on c.user_id = su.id and su.is_del = 0
+        where c.is_del = 0
+        <if test="complaintTitle != null and complaintTitle != ''">
+            and complaint_title = #{complaintTitle}
+        </if>
+    </select>
+
+    <insert id="insertComplaint" parameterType="cn.property.model.Complaint">
+        insert into complaint
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="complaintTitle != null">
+                complaint_title,
+            </if>
+            <if test="complaintContent != null">
+                complaint_content,
+            </if>
+            <if test="complaintTime != null">
+                complaint_time,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="complaintTitle != null">
+                #{complaintTitle},
+            </if>
+            <if test="complaintContent != null">
+                #{complaintContent},
+            </if>
+            <if test="complaintTime != null">
+                #{complaintTime},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateComplaintById" parameterType="cn.property.model.Complaint">
+        update complaint
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="complaintTitle != null and complaintTitle != ''">
+                complaint_title = #{complaintTitle},
+            </if>
+            <if test="complaintContent != null and complaintContent != ''">
+                complaint_content = #{complaintContent},
+            </if>
+            <if test="complaintTime != null">
+                complaint_time = #{complaintTime},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id} and is_del= 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteComplaintById" parameterType="java.lang.String">
+        update complaint set is_del = 1 where id = #{id}
+    </delete>
+
+</mapper>
+

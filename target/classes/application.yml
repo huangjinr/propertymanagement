@@ -1,0 +1,45 @@
+#端口号
+server:
+  port: 8080
+
+spring:
+  resources:
+    static-locations: classpath:/static/, classpath:/templates/
+  datasource:
+    url: jdbc:mysql://101.200.251.91:3306/propertymanagement?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&useAffectedRows=true
+    #url: jdbc:mysql://58.87.83.252:60431/yijia?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&useAffectedRows=true
+    #url: jdbc:mysql://172.21.0.7:3306/yijia?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&useAffectedRows=true
+    #username: yjgzs16888
+    #password: lzk9%MfEzgVmJawW
+    username: huangjin
+    password: 6&Nn9qSxQ7scaiE9
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    maxActive: 20
+    initialSize: 3
+    maxWait: 60000
+    minIdle: 3
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+mybatis:
+  #配置项：开启下划线到驼峰的自动转换. 作用：将数据库字段根据驼峰规则自动注入到对象属性。
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.property.model
+
+pagehelper:
+  helper-dialect: mysql #配置使用哪种数据库语言，不配置的话pageHelper也会自动检测
+  #启用合理化时，如果pageNum<1会查询第一页，如果pageNum>总页数会查询最后一页； #禁用合理化时，如果pageNum<1或pageNum>总页数会返回空数据。
+  reasonable: true
+  support-methods-arguments: true

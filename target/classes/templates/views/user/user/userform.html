@@ -1,0 +1,97 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>layuiAdmin 网站用户 iframe 框</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+</head>
+<body>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+    <input type="hidden" name="id" th:value="${sysUser?.id}">
+    <div class="layui-form-item">
+      <label class="layui-form-label">所在楼</label>
+      <div class="layui-input-inline">
+        <input type="text" name="buildingId" th:value="${sysUser.buildingId}" lay-verify="required" placeholder="请输入楼名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-inline">
+        <input type="text" name="name" th:value="${sysUser.name}" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">用户名</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" th:value="${sysUser.username}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">手机号码</label>
+      <div class="layui-input-inline">
+        <input type="text" name="phone" th:value="${sysUser.phone}" lay-verify="required|phone" placeholder="请输入号码" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">地址</label>
+      <div class="layui-input-inline">
+        <input type="text" name="address" th:value="${sysUser.address}"  placeholder="请输入地址" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">性别</label>
+      <div class="layui-input-inline">
+        <select name="sex" lay-verify="required">
+          <option value="">请选择性别</option>
+          <option th:selected="${sysUser?.sex == 1}" value="1">男</option>
+          <option th:selected="${sysUser?.sex == 0}" value="0">女</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">角色</label>
+      <div class="layui-input-inline">
+        <select name="sysRole.roleType" lay-verify="required">
+          <option value="">请选择角色</option>
+          <option th:selected="${sysUser.sysRole?.roleType == 0}" value="0">超级管理员</option>
+          <option th:selected="${sysUser.sysRole?.roleType == 2}" value="2">业主</option>
+          <option th:selected="${sysUser.sysRole?.roleType == 1}" value="1">物业管理员</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
+    </div>
+  </div>
+
+  <script src="../../../layuiadmin/layui/layui.js"></script>  
+  <script>
+  layui.config({
+    base: '../../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'form','laydate', 'upload'], function(){
+    var $ = layui.$
+    ,form = layui.form
+    ,laydate = layui.laydate
+    ,upload = layui.upload ;
+
+    laydate.render({
+      elem: '#test-laydate-type-date'
+      //,type: 'date' //type 默认为 date，所以可不填
+      ,trigger: 'click'
+    });
+
+  })
+  </script>
+</body>
+</html>

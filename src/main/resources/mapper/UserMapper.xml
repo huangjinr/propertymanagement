@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.property.mapper.UserMapper">
+
+    <resultMap id="selectUserListMap" type="cn.property.model.SysUser">
+        <id property="id" column="id"></id>
+        <id property="buildingId" column="building_id"></id>
+        <result property="name" column="name"></result>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <result property="sex" column="sex"></result>
+        <result property="phone" column="phone"></result>
+        <result property="address" column="address"></result>
+        <result property="joinDate" column="join_date"></result>
+        <result property="isDel" column="is_del"></result>
+        <association property="sysRole" javaType="cn.property.model.SysRole">
+            <id property="id" column="role_id"></id>
+            <result property="roleName" column="role_name"></result>
+            <result property="roleEnName" column="role_en_name"></result>
+            <result property="roleType" column="role_type"></result>
+            <result property="isDel" column="is_del"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectUserByUsername" resultMap="selectUserListMap" parameterType="java.lang.String">
+        SELECT
+        s.*,sr.id as role_id,sr.role_name,sr.role_en_name,sr.role_type
+        FROM
+        sys_user s
+        LEFT JOIN sys_user_role sur ON s.id = sur.user_id and sur.is_del = 0
+        LEFT JOIN sys_role sr ON sur.role_id = sr.id and sr.is_del = 0
+        WHERE
+        s.is_del = 0
+        and s.username = #{username}
+    </select>
+
+    <select id="selectUserList" resultMap="selectUserListMap" parameterType="java.util.Map">
+        SELECT
+        s.*,sr.role_name,sr.role_en_name,sr.role_type
+        FROM
+        sys_user s
+        LEFT JOIN sys_user_role sur ON s.id = sur.user_id and sur.is_del = 0
+        LEFT JOIN sys_role sr ON sur.role_id = sr.id and sr.is_del = 0
+        WHERE
+        s.is_del = 0
+        <if test="name != null and name != ''">
+            and s.name = #{name}
+        </if>
+        <if test="username != null and username != ''">
+            and s.username = #{username}
+        </if>
+        <if test="phone != null and phone != ''">
+            and s.phone = #{phone}
+        </if>
+    </select>
+
+    <insert id="insertUser" parameterType="cn.property.model.SysUser">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="buildingId != null">
+                building_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="joinDate != null">
+                join_date,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="buildingId != null">
+                #{buildingId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="joinDate != null">
+                #{joinDate},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectUserById" parameterType="java.lang.String" resultMap="selectUserListMap">
+        SELECT
+        s.*,sr.role_name,sr.role_en_name,sr.role_type
+        FROM
+        sys_user s
+        LEFT JOIN sys_user_role sur ON s.id = sur.user_id and sur.is_del = 0
+        LEFT JOIN sys_role sr ON sur.role_id = sr.id and sr.is_del = 0
+        WHERE
+            s.id = #{id}
+        AND
+            s.is_del = 0
+    </select>
+
+    <update id="updateUser" parameterType="cn.property.model.SysUser">
+        update sys_user
+        <set>
+            <if test="buildingId != null">
+                `building_id` = #{buildingId},
+            </if>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="joinDate != null">
+                join_date = #{joinDate},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <delete id="deleteUserById" parameterType="java.lang.String">
+        update sys_user
+        set is_del = 1
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        update sys_user set is_del = 1
+        where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="selectUserByName" resultMap="selectUserListMap" parameterType="java.lang.String">
+        SELECT
+        s.*
+        FROM
+        sys_user s
+        WHERE
+        s.is_del = 0
+        and s.name = #{name}
+    </select>
+</mapper>

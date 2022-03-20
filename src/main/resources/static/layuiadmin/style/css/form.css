@@ -1,0 +1,59 @@
+.body-alert{background-color: white;padding:24px;}
+.content-alert{background-color: white;}
+/*表单验证*/
+.check-t{
+    display: none;
+}
+.check-t .triangle{
+    position: absolute;
+    top: 26px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #009688;
+}
+.check-t .text{
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 45px;
+    right: 0;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background-color:#009688;
+    color: white;
+    font-size: 12px;
+    box-shadow: 0 0 16px rgba(0,0,0,.4);
+}
+/*按钮*/
+.btn-c{text-align: center;color: white;}
+.btn-c .btn-inline{display: inline-block;}
+.btn-c .btn-inline .btn-float{float: left;height: 32px;}
+.top-2{margin-top: 24px;}
+.top-3{margin-top: 36px;}
+.layui-btn .my-icon{font-size: 15px !important;}
+
+/*表单容器*/
+.block-5{width: 500px;margin: 0 auto 10px;}
+.block-4{width: 400px;margin: 0 auto 10px;}
+.block-3{width: 390px;margin: 0 auto 10px;}
+.form-wrap-8{width: 820px;margin: 0 auto;}
+.form-wrap-10{width: 1050px;margin: 12px auto;}
+.form-left{width: 390px;float: left;}
+.form-right{width: 390px;float: right;}
+.layui-input-block{margin-left: 0;position: relative;}
+.layui-inline{margin-bottom: 12px;}
+.layui-form-label-block {
+    float: left;
+    display: block;
+    padding: 9px 15px 6px 0;
+    width: 100%;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+}
+
+/*detail*/
+.content-alert .even td:nth-child(even){ color: rgb(51,51,51);font-weight: bold;}
+.content-alert .odd td:nth-child(odd){ color: rgb(51,51,51);font-weight: bold;}

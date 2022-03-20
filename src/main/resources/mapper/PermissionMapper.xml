@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.property.mapper.PermissionMapper">
+
+    <resultMap id="selectPermissionListMap" type="cn.property.model.SysPermission">
+        <id property="id" column="id"></id>
+        <result property="permissionName" column="permission_name"></result>
+        <result property="permissionCode" column="permission_code"></result>
+        <result property="permissionType" column="permission_type"></result>
+        <result property="permissionUrl" column="permission_url"></result>
+        <result property="parentId" column="parent_id"></result>
+        <result property="sort" column="sort"></result>
+        <result property="isDel" column="is_del"></result>
+    </resultMap>
+
+    <select id="selectPermissionList" resultMap="selectPermissionListMap">
+        SELECT
+            *
+        FROM
+            sys_permission sp
+        where
+            sp.is_del = 0
+        order by sp.sort asc
+    </select>
+
+    <insert id="insertPermission" parameterType="cn.property.model.SysPermission">
+        insert into sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="permissionName != null">
+                permission_name,
+            </if>
+            <if test="permissionCode != null">
+                permission_code,
+            </if>
+            <if test="permissionType != null">
+                permission_type,
+            </if>
+            <if test="permissionUrl != null">
+                permission_url,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="permissionName != null">
+                #{permissionName},
+            </if>
+            <if test="permissionCode != null">
+                #{permissionCode},
+            </if>
+            <if test="permissionType != null">
+                #{permissionType},
+            </if>
+            <if test="permissionUrl != null">
+                #{permissionUrl},
+            </if>
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectPermissionById" resultMap="selectPermissionListMap" parameterType="java.lang.String">
+        SELECT
+            *
+        FROM
+            sys_permission sp
+        WHERE
+            sp.id = #{id}
+        AND
+            sp.is_del = 0
+    </select>
+
+    <select id="selectParentNameByParentName" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT
+            sp1.permission_name
+        FROM
+            sys_permission sp
+        inner join sys_permission sp1 on sp.parent_id = sp1.id
+        WHERE
+            sp.id = #{id}
+        AND
+            sp.is_del = 0
+    </select>
+
+    <update id="updatePermission" parameterType="cn.property.model.SysPermission">
+        update sys_permission
+        <set>
+            <if test="permissionName != null">
+                permission_name = #{permissionName},
+            </if>
+            <if test="permissionCode != null">
+                permission_code = #{permissionCode},
+            </if>
+            <if test="permissionType != null">
+                permission_type = #{permissionType},
+            </if>
+            <if test="permissionUrl != null">
+                permission_url = #{permissionUrl},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <delete id="deletePermissionById" parameterType="java.lang.String">
+        update sys_permission
+        set is_del = 1
+        where id = #{id}
+    </delete>
+</mapper>

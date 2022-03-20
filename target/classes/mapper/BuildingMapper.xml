@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.property.mapper.BuildingMapper">
+
+    <resultMap type="cn.property.model.Building" id="BuildingMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="buildingNumber" column="building_number" jdbcType="VARCHAR"/>
+        <result property="buildingUnit" column="building_unit" jdbcType="VARCHAR"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectBuildingById" resultMap="BuildingMap" parameterType="java.lang.String">
+        select
+          id, building_number, building_unit, is_del
+        from building
+        where id = #{id} and is_del = 0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectBuildingList" resultMap="BuildingMap" parameterType="java.util.Map">
+        select
+          id, building_number, building_unit, is_del
+        from building
+        where is_del = 0
+        <if test="buildingNumber != null">
+            and building_number = #{buildingNumber}
+        </if>
+
+    </select>
+
+    <insert id="insertBuilding" parameterType="cn.property.model.Building">
+        insert into building
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="buildingNumber != null">
+                building_number,
+            </if>
+            <if test="buildingUnit != null">
+                building_unit,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="buildingNumber != null">
+                #{buildingNumber},
+            </if>
+            <if test="buildingUnit != null">
+                #{buildingUnit},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateBuildingById" parameterType="cn.property.model.Building">
+        update building
+        <set>
+            <if test="buildingNumber != null">
+                building_number = #{buildingNumber},
+            </if>
+            <if test="buildingUnit != null">
+                building_unit = #{buildingUnit},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteBuildingById" parameterType="java.lang.String">
+        update building set is_del = 1 where id = #{id}
+    </delete>
+
+</mapper>
+

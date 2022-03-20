@@ -1,0 +1,141 @@
+input:-ms-input-placeholder{color:rgb(153,153,153)!important;}
+.icon { width: 1em; height: 1em; vertical-align: -0.15em;fill: currentColor;overflow: hidden;}
+.clearfix:after{ content: "";display: block;height: 0;clear: both;visibility: hidden;}
+.clearfix {zoom: 1;}
+.x-msg{color: white;background-color: rgba(0,0,0,.6)!important;border: none!important;border-radius: 6px!important;}
+.x-msg .msg-icon{margin-bottom: 8px;font-size: 50px;text-align: center;color: white;}
+.msg-icon .my-layui-icon{font-size: 30px; !important;}
+.x-msg .msg-text{text-align: center;}
+.x-confirm{
+    border-radius: 8px!important;
+    background-color: rgba(255,255,255,.9)!important;
+}
+.x-confirm .layui-layer-title{
+    padding: 0!important;
+    font-size: 16px;
+    color: #ba0607!important;
+            /*#009688!important;*/
+    font-weight: bold;
+    text-align: center;
+    background-color: white!important;
+    border-radius: 8px 8px 0 0!important;
+    border-bottom: none!important;
+}
+.x-confirm .layui-layer-content{
+    display: table-cell;
+    width: 300px!important;
+    padding: 12px!important;
+    text-align: center!important;
+    vertical-align: middle;
+}
+.x-confirm .layui-layer-btn{
+    padding: 0!important;
+    height: 40px;
+    border-top: 1px solid rgb(238,238,238)!important;
+}
+.x-confirm .layui-layer-btn a{
+    padding: 0!important;
+    margin: 0!important;
+    border: none!important;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+.x-confirm .layui-layer-btn .layui-layer-btn0{
+    float: left;
+    box-sizing: border-box;
+    width: 150px;
+    color: rgb(51,51,51);
+    border-radius: 0 0 0 8px;
+    background-color: white!important;
+}
+.x-confirm .layui-layer-btn .layui-layer-btn1:hover{
+    background-color: #009688cc!important;
+}
+.x-confirm .layui-layer-btn .layui-layer-btn1{
+    float: left;
+    box-sizing: border-box;
+    width: 150px;
+    color: white;
+    border-radius: 0 0 8px 0;
+    border-right: 1px solid rgb(238,238,238);
+    /*background-color: #009688;*/
+    background-color: #ba0607;
+
+}
+.x-sure{
+    border-radius: 8px!important;
+    background-color: rgba(255,255,255,.9)!important;
+}
+.x-sure .layui-layer-title{
+    padding: 0!important;
+    font-size: 16px;
+    color: #009688!important;
+    font-weight: bold;
+    text-align: center;
+    background-color: white!important;
+    border-radius: 8px 8px 0 0!important;
+    border-bottom: none!important;
+}
+.x-sure .layui-layer-content{
+    display: table-cell;
+    width: 300px!important;
+    padding: 12px!important;
+    text-align: center!important;
+    vertical-align: middle;
+}
+.x-sure .layui-layer-btn{
+    padding: 0!important;
+    height: 40px;
+    border-top: 1px solid rgb(238,238,238)!important;
+}
+.x-sure .layui-layer-btn a{
+    padding: 0!important;
+    margin: 0!important;
+    border: none!important;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+.x-sure .layui-layer-btn .layui-layer-btn0{
+    float: left;
+    box-sizing: border-box;
+    width:100%;
+    color: white;
+    border-radius: 0 0 8px  8px;
+    background-color: #009688!important;
+}
+.x-sure .layui-layer-btn .layui-layer-btn0:hover{
+    background-color: #009688cc!important;
+}
+.x-load .load-text{ display: inline-block;position: absolute;z-index: 20180304;width: 100px;top: 48px;left: -28px;font-size: 12px;color: rgb(85,85,85);}
+.x-load .layui-layer-content{overflow: visible!important;}
+/* 按钮 */
+/* 字体 */
+@font-face {
+    font-family: CustomFontName;
+    src: url(../font/custom-font.ttf)
+}
+.layui-tab-item th {
+    background-color: #FFFFFF;
+    font-family: CustomFontName;
+    font-weight: bold;
+    color: #757575;
+    height: 16px;
+    line-height: 16px;
+    font-size: 16px;
+}
+
+
+
+.layui-card-body th{
+    background-color: #FFFFFF;
+    font-family: CustomFontName;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    color: #757575;
+    height: 16px;
+    line-height: 16px;
+    font-size: 16px;
+}
+

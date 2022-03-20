@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>亿嘉管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/css/global.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/css/reset.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/css/form.css" media="all">
+</head>
+<body class="body-alert">
+<div class="content-alert">
+  <div class="layui-form" id="data_form">
+    <input type="hidden" id="id" name="id" th:value="${notice?.id}">
+
+    <div class="form-wrap-8 clearfix">
+
+      <div class="form-left">
+        <div class="layui-form-item block-3">
+          <label class="layui-form-label-block"><span style="color:red;">*</span>公告标题:</label>
+          <input type="text" name="noticeContent" autocomplete="off" lay-verify="required"
+                 class="layui-input" th:value="${notice?.noticeContent}">
+
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label-block"><span style="color:red;">*</span>公告详情:</label>
+        <div class="layui-input-inline" style="width: 100%;">
+                    <textarea id="content" name="noticeTitle" lay-verify="filter" style="display: none;"
+                              th:text="${notice?.noticeTitle}"></textarea>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-notice-front-submit" id="LAY-notice-front-submit" value="确认">
+    </div>
+  </div>
+</div>
+
+<!-- 引入js -->
+<script src="../../layuiadmin/layui/layui.js"></script>
+
+<script>
+  layui.config({
+    base: '../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'complaintform'], function () {
+    var $ = layui.$
+            , form = layui.form
+            , laydate = layui.laydate
+            , upload = layui.upload;
+
+
+  })
+</script>
+</body>
+</html>
