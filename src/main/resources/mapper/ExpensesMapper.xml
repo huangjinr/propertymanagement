@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.property.mapper.ExpensesMapper">
+
+    <resultMap type="cn.property.model.Expenses" id="ExpensesMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="expensesMoney" column="expenses_money" jdbcType="NUMERIC"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="expensesInfo" column="expenses_info" jdbcType="VARCHAR"/>
+        <result property="expensesTime" column="expenses_time" jdbcType="VARCHAR"/>
+        <result property="expensesStatus" column="expenses_status" jdbcType="INTEGER"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="userName" column="username" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectExpensesById" resultMap="ExpensesMap" parameterType="java.lang.String">
+        select
+        e.*,su.name username
+        from expenses e
+        inner join sys_user su on e.user_id = su.id and su.is_del = 0
+        where e.id = #{id} and e.is_del = 0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectExpensesList" resultMap="ExpensesMap"  parameterType="java.util.Map">
+        select
+        e.*,su.name username
+        from expenses e
+        inner join sys_user su on e.user_id = su.id and su.is_del = 0
+        where e.is_del = 0
+        <if test="userName != null">
+            and su.name = #{userName}
+        </if>
+    </select>
+
+    <insert id="insertExpenses" parameterType="cn.property.model.Expenses">
+        insert into expenses
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="expensesMoney != null">
+                expenses_money,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="expensesInfo != null">
+                expenses_info,
+            </if>
+            <if test="expensesTime != null">
+                expenses_time,
+            </if>
+            <if test="expensesStatus != null">
+                expenses_status,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="expensesMoney != null">
+                #{expensesMoney},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="expensesInfo != null">
+                #{expensesInfo},
+            </if>
+            <if test="expensesTime != null">
+                #{expensesTime},
+            </if>
+            <if test="expensesStatus != null">
+                #{expensesStatus},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateExpensesById"  parameterType="cn.property.model.Expenses">
+        update expenses
+        <set>
+            <if test="expensesMoney != null">
+                expenses_money = #{expensesMoney},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="expensesInfo != null and expensesInfo != ''">
+                expenses_info = #{expensesInfo},
+            </if>
+            <if test="expensesStatus != null">
+                expenses_status = #{expensesStatus},
+            </if>
+            <if test="expensesTime != null">
+                expenses_time = #{expensesTime},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteExpensesById" parameterType="java.lang.String">
+        update expenses set is_del = 1 where id = #{id}
+    </delete>
+
+</mapper>
+

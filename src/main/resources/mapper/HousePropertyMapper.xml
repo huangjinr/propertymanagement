@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.property.mapper.HousePropertyMapper">
+
+    <resultMap type="cn.property.model.HouseProperty" id="HousePropertyMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="propertyNum" column="property_num" jdbcType="VARCHAR"/>
+        <result property="propertyArea" column="property_area" jdbcType="NUMERIC"/>
+        <result property="propertyBuytime" column="property_buytime" jdbcType="TIMESTAMP"/>
+        <result property="propertyYears" column="property_years" jdbcType="INTEGER"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="userName" column="username" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectHousePropertyById" resultMap="HousePropertyMap" parameterType="java.lang.String">
+        select
+        h.*,su.name username
+        from house_property h
+        inner join sys_user su on h.user_id = su.id and su.is_del = 0
+        where h.id = #{id} and h.is_del = 0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectHousePropertyList" resultMap="HousePropertyMap" parameterType="java.util.Map">
+        select
+        h.*,su.name username
+        from house_property h
+        inner join sys_user su on h.user_id = su.id and su.is_del = 0
+        where h.is_del = 0
+        <if test="userName != null">
+            and su.name = #{userName}
+        </if>
+    </select>
+
+    <insert id="insertHouseProperty" parameterType="cn.property.model.HouseProperty">
+        insert into house_property
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="propertyNum != null">
+                property_num,
+            </if>
+            <if test="propertyArea != null">
+                property_area,
+            </if>
+            <if test="propertyBuytime != null">
+                property_buytime,
+            </if>
+            <if test="propertyYears != null">
+                property_years,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="propertyNum != null">
+                #{propertyNum},
+            </if>
+            <if test="propertyArea != null">
+                #{propertyArea},
+            </if>
+            <if test="propertyBuytime != null">
+                #{propertyBuytime},
+            </if>
+            <if test="propertyYears != null">
+                #{propertyYears},
+            </if>
+            <if test="isDel != null">
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateHousePropertyById" parameterType="cn.property.model.HouseProperty">
+        update house_property
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="propertyNum != null and propertyNum != ''">
+                property_num = #{propertyNum},
+            </if>
+            <if test="propertyArea != null">
+                property_area = #{propertyArea},
+            </if>
+            <if test="propertyBuytime != null">
+                property_buytime = #{propertyBuytime},
+            </if>
+            <if test="propertyYears != null">
+                property_years = #{propertyYears},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteHousePropertyById" parameterType="java.lang.String">
+        update house_property set is_del = 1 where id = #{id}
+    </delete>
+
+</mapper>
+

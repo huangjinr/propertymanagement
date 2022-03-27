@@ -1,0 +1,77 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+</head>
+<body>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+    <input type="hidden" name="id" th:value="${houseProperty?.id}">
+    <div class="layui-form-item">
+      <label class="layui-form-label">房产用户</label>
+      <div class="layui-input-inline">
+        <input type="text" name="userName" th:value="${houseProperty.userName}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">房产编号</label>
+      <div class="layui-input-inline">
+        <input type="text" name="propertyNum" th:value="${houseProperty.propertyNum}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">房产面积</label>
+      <div class="layui-input-inline">
+        <input type="text" name="propertyArea" th:value="${houseProperty.propertyArea}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">使用年限</label>
+      <div class="layui-input-inline">
+        <input type="text" name="propertyYears" th:value="${houseProperty.propertyYears}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">购买时间</label>
+        <div class="layui-input-inline">
+          <input type="text" class="layui-input" th:value="${#dates.format(houseProperty.propertyBuytime,'yyyy-MM-dd')}" id="test-laydate-type-date" name="propertyBuytime" placeholder="请选择">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-houseProperty-front-submit" id="LAY-houseProperty-front-submit" value="确认">
+    </div>
+  </div>
+
+  <script src="../../layuiadmin/layui/layui.js"></script>
+  <script>
+  layui.config({
+    base: '../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'form', 'upload', 'laydate'], function(){
+    var $ = layui.$
+    ,form = layui.form
+    ,laydate = layui.laydate
+    ,upload = layui.upload ;
+
+    laydate.render({
+      elem: '#test-laydate-type-date'
+      //,type: 'date' //type 默认为 date，所以可不填
+      ,trigger: 'click'
+    });
+
+
+  })
+  </script>
+</body>
+</html>
