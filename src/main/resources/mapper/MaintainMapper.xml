@@ -29,6 +29,12 @@
         from maintain m
         inner join sys_user su on m.user_id = su.id and su.is_del = 0
         where m.is_del = 0
+        <if test="userName != null">
+            and su.name = #{userName}
+        </if>
+        <if test="userId != null and userId != ''">
+            and m.user_id = #{userId}
+        </if>
     </select>
 
 

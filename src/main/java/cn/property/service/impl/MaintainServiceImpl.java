@@ -36,11 +36,14 @@ public class MaintainServiceImpl implements MaintainService {
     @Override
     public PageInfo<Maintain> selectMaintainList(Maintain maintain, Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
-        /*if (maintain != null) {
-            if (!StrUtil.hasEmpty(maintain.getMaintainTitle())) {
-                map.put("MaintainTitle", maintain.getMaintainTitle());
+        if (maintain != null) {
+            if (!StrUtil.hasEmpty(maintain.getUserName())) {
+                map.put("userName", maintain.getUserName());
             }
-        }*/
+            if (!StrUtil.hasEmpty(maintain.getUserId())) {
+                map.put("userId", maintain.getUserId());
+            }
+        }
         PageHelper.startPage(page,limit);
         List<Maintain> maintainList = maintainMapper.selectMaintainList(map);
         PageInfo<Maintain> pageInfo = new PageInfo<Maintain>(maintainList);

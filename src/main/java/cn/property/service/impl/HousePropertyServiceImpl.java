@@ -44,6 +44,9 @@ public class HousePropertyServiceImpl implements HousePropertyService {
             if (!StrUtil.hasEmpty(houseProperty.getUserName())) {
                 map.put("userName", houseProperty.getUserName());
             }
+            if (!StrUtil.hasEmpty(houseProperty.getUserId())) {
+                map.put("userId", houseProperty.getUserId());
+            }
         }
         PageHelper.startPage(page,limit);
         List<HouseProperty> housePropertyList = housePropertyMapper.selectHousePropertyList(map);

@@ -49,6 +49,9 @@ public class CarportServiceImpl implements CarportService {
             if (!StrUtil.hasEmpty(carport.getCarportNum())) {
                 map.put("carportNum", carport.getCarportNum());
             }
+            if (!StrUtil.hasEmpty(carport.getUserId())) {
+                map.put("userId", carport.getUserId());
+            }
         }
         PageHelper.startPage(page,limit);
         List<Carport> carportList = carportMapper.selectCarportList(map);

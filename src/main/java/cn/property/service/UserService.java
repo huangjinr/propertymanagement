@@ -19,4 +19,8 @@ public interface UserService {
     void deleteUserById(String id);
 
     void deleteByIds(List<String> ids);
+
+    PageInfo<SysUser> selectPropertyUserList(SysUser sysUser, Integer page, Integer limit);
+
+    void registUser(SysUser user);
 }

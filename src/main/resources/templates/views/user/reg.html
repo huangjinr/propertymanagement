@@ -18,26 +18,17 @@
   <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
     <div class="layadmin-user-login-main">
       <div class="layadmin-user-login-box layadmin-user-login-header">
-        <h2>layuiAdmin</h2>
-        <p>layui 官方出品的单页面后台管理模板系统</p>
+        <h2>物业管理系统</h2>
+        <p>注册</p>
       </div>
       <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
         <div class="layui-form-item">
-          <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-cellphone"></label>
-          <input type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机" class="layui-input">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-user" for="LAY-user-login-name"></label>
+          <input type="text" name="name" id="LAY-user-login-name" lay-verify="required" placeholder="姓名" class="layui-input">
         </div>
         <div class="layui-form-item">
-          <div class="layui-row">
-            <div class="layui-col-xs7">
-              <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-              <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码" class="layui-input">
-            </div>
-            <div class="layui-col-xs5">
-              <div style="margin-left: 10px;">
-                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="LAY-user-getsmscode">获取验证码</button>
-              </div>
-            </div>
-          </div>
+          <label class="layadmin-user-login-icon layui-icon layui-icon-heart" for="LAY-user-login-username"></label>
+          <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="账号" class="layui-input">
         </div>
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
@@ -48,36 +39,36 @@
           <input type="password" name="repass" id="LAY-user-login-repass" lay-verify="required" placeholder="确认密码" class="layui-input">
         </div>
         <div class="layui-form-item">
-          <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-nickname"></label>
-          <input type="text" name="nickname" id="LAY-user-login-nickname" lay-verify="nickname" placeholder="昵称" class="layui-input">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-location" for="LAY-user-login-adress"></label>
+          <input type="text" name="address" id="LAY-user-login-adress" lay-verify="required" placeholder="地址" class="layui-input">
         </div>
         <div class="layui-form-item">
-          <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
+          <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-phone"></label>
+          <input type="text" name="phone" id="LAY-user-login-phone" lay-verify="required" placeholder="手机" class="layui-input">
         </div>
+
         <div class="layui-form-item">
-          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">注 册</button>
+          <label ></label>
+          <div class="layui-input-inline">
+            <select name="sex" lay-verify="required">
+              <option value="">请选择性别</option>
+              <option value="1">男</option>
+              <option value="2">女</option>
+            </select>
+          </div>
         </div>
         <div class="layui-trans layui-form-item layadmin-user-login-other">
-          <label>社交账号注册</label>
-          <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
-          <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
-          <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
-          
+
+          <div class="layui-form-item">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">注 册</button>
+          </div>
           <a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
           <a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>
         </div>
       </div>
     </div>
     
-    <div class="layui-trans layadmin-user-login-footer">
-      
-      <p>© 2018 <a href="http://www.layui.com/" target="_blank">layui.com</a></p>
-      <p>
-        <span><a href="http://www.layui.com/admin/#get" target="_blank">获取授权</a></span>
-        <span><a href="http://www.layui.com/admin/pro/" target="_blank">在线演示</a></span>
-        <span><a href="http://www.layui.com/admin/" target="_blank">前往官网</a></span>
-      </p>
-    </div>
+
 
   </div>
 
@@ -104,26 +95,28 @@
       if(field.password !== field.repass){
         return layer.msg('两次密码输入不一致');
       }
-      
-      //是否同意用户协议
-      if(!field.agreement){
-        return layer.msg('你必须同意用户协议才能注册');
-      }
+
       
       //请求接口
-      admin.req({
-        url: layui.setter.base + 'json/user/reg.js' //实际使用请改成服务端真实接口
-        ,data: field
-        ,done: function(res){        
+      $.ajax({
+        type: "post",
+        /*contentType: "application/json;charset=UTF-8",*/
+        url: "/register/insertUser",
+        data: field,
+        async: false,
+        success: function (data) {
           layer.msg('注册成功', {
             offset: '15px'
             ,icon: 1
             ,time: 1000
           }, function(){
-            location.hash = '/user/login'; //跳转到登入页
+            location.href = '/user/login'; //跳转到登入页
           });
+        },
+        error: function (e) {
+          layer.msg("编辑失败");
         }
-      });
+      })
       
       return false;
     });

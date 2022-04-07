@@ -20,6 +20,11 @@ public class LoginController {
 
     @RequestMapping("index")
     public String index(Model model, Authentication authentication){
+        return "1125zh3/default";
+    }
+
+    @RequestMapping("admin")
+    public String admin(Model model, Authentication authentication){
         return "views/index";
     }
 }

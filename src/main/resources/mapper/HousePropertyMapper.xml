@@ -30,7 +30,10 @@
         inner join sys_user su on h.user_id = su.id and su.is_del = 0
         where h.is_del = 0
         <if test="userName != null">
-            and su.name = #{userName}
+            and h.su.name = #{userName}
+        </if>
+        <if test="userId != null and userId != ''">
+            and h.user_id = #{userId}
         </if>
     </select>
 

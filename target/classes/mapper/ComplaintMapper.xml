@@ -29,7 +29,10 @@
         left join sys_user su on c.user_id = su.id and su.is_del = 0
         where c.is_del = 0
         <if test="complaintTitle != null and complaintTitle != ''">
-            and complaint_title = #{complaintTitle}
+            and c.complaint_title = #{complaintTitle}
+        </if>
+        <if test="userId != null and userId != ''">
+            and c.user_id = #{userId}
         </if>
     </select>
 

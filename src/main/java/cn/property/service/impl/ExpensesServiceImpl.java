@@ -45,6 +45,9 @@ public class ExpensesServiceImpl implements ExpensesService {
             if (!StrUtil.hasEmpty(expenses.getUserName())) {
                 map.put("userName", expenses.getUserName());
             }
+            if (!StrUtil.hasEmpty(expenses.getUserId())) {
+                map.put("userId", expenses.getUserId());
+            }
         }
         PageHelper.startPage(page,limit);
         List<Expenses> expensesList = expensesMapper.selectExpensesList(map);

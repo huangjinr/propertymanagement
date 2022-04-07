@@ -52,6 +52,9 @@
         <if test="phone != null and phone != ''">
             and s.phone = #{phone}
         </if>
+        <if test="userType != null">
+            and sr.role_type = #{userType}
+        </if>
     </select>
 
     <insert id="insertUser" parameterType="cn.property.model.SysUser">

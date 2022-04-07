@@ -32,6 +32,9 @@
         <if test="userName != null">
             and su.name = #{userName}
         </if>
+        <if test="userId != null and userId != ''">
+            and e.user_id = #{userId}
+        </if>
     </select>
 
     <insert id="insertExpenses" parameterType="cn.property.model.Expenses">

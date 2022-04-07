@@ -2,10 +2,12 @@ package cn.property.controller;
 
 
 import cn.property.model.Expenses;
+import cn.property.model.SysUser;
 import cn.property.service.ExpensesService;
 import cn.property.utils.ReturnUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,7 +35,11 @@ public class ExpensesController {
 
     @RequestMapping(value = "selectExpensesList", method = {RequestMethod.GET})
     @ResponseBody
-    public ModelMap selectExpensesList(Expenses expenses,Integer page,Integer limit) {
+    public ModelMap selectExpensesList(Authentication authentication,Expenses expenses, Integer page, Integer limit) {
+        SysUser principal = (SysUser) authentication.getPrincipal();
+        if (principal.getSysRole().getRoleType() == 2){
+            expenses.setUserId(principal.getId());
+        }
         PageInfo<Expenses> expensesList = expensesService.selectExpensesList(expenses,page,limit);
         return ReturnUtil.Success("查询成功", expensesList.getList(), expensesList.getTotal());
     }

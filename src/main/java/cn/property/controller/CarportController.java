@@ -2,10 +2,12 @@ package cn.property.controller;
 
 
 import cn.property.model.Carport;
+import cn.property.model.SysUser;
 import cn.property.service.CarportService;
 import cn.property.utils.ReturnUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,7 +35,11 @@ public class CarportController {
 
     @RequestMapping(value = "selectCarportList", method = {RequestMethod.GET})
     @ResponseBody
-    public ModelMap selectCarportList(Carport carport,Integer page,Integer limit) {
+    public ModelMap selectCarportList(Authentication authentication,Carport carport, Integer page, Integer limit) {
+        SysUser principal = (SysUser) authentication.getPrincipal();
+        if (principal.getSysRole().getRoleType() == 2){
+            carport.setUserId(principal.getId());
+        }
         PageInfo<Carport> carportList = carportService.selectCarportList(carport,page,limit);
         return ReturnUtil.Success("查询成功", carportList.getList(), carportList.getTotal());
     }

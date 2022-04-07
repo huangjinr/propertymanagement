@@ -43,6 +43,9 @@ public class ComplaintServiceImpl implements ComplaintService {
             if (!StrUtil.hasEmpty(complaint.getComplaintTitle())) {
                 map.put("complaintTitle", complaint.getComplaintTitle());
             }
+            if (!StrUtil.hasEmpty(complaint.getUserId())) {
+                map.put("userId", complaint.getUserId());
+            }
         }
         PageHelper.startPage(page,limit);
         List<Complaint> complaintList = complaintMapper.selectComplaintList(map);

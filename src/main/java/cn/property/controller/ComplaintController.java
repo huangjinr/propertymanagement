@@ -37,7 +37,11 @@ public class ComplaintController {
 
     @RequestMapping(value = "selectComplaintList", method = {RequestMethod.GET})
     @ResponseBody
-    public ModelMap selectComplaintList(Complaint complaint, Integer page, Integer limit) {
+    public ModelMap selectComplaintList(Authentication authentication,Complaint complaint, Integer page, Integer limit) {
+        SysUser principal = (SysUser) authentication.getPrincipal();
+        if (principal.getSysRole().getRoleType() == 2){
+            complaint.setUserId(principal.getId());
+        }
         PageInfo<Complaint> complaintList = complaintService.selectComplaintList(complaint,page,limit);
         return ReturnUtil.Success("查询成功", complaintList.getList(), complaintList.getTotal());
     }

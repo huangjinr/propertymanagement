@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
             if (!StrUtil.hasEmpty(sysUser.getName())) {
                 map.put("name", sysUser.getName());
             }
+            map.put("userType",2);
         }
         PageHelper.startPage(page,limit);
         List<SysUser> sysUserList = userMapper.selectUserList(map);
@@ -106,5 +107,42 @@ public class UserServiceImpl implements UserService {
     public void deleteByIds(List<String> ids) {
         userMapper.deleteByIds(ids);
         userRoleMapper.deleteByUserIds(ids);
+    }
+
+    @Override
+    public PageInfo<SysUser> selectPropertyUserList(SysUser sysUser, Integer page, Integer limit) {
+        Map<String, Object> map = new HashMap<>();
+        if (sysUser != null) {
+            if (!StrUtil.hasEmpty(sysUser.getUsername())) {
+                map.put("username", sysUser.getUsername());
+            }
+            if (!StrUtil.hasEmpty(sysUser.getPhone())) {
+                map.put("phone", sysUser.getPhone());
+            }
+            if (!StrUtil.hasEmpty(sysUser.getName())) {
+                map.put("name", sysUser.getName());
+            }
+            map.put("userType",1);
+        }
+        PageHelper.startPage(page,limit);
+        List<SysUser> sysUserList = userMapper.selectUserList(map);
+        PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(sysUserList);
+        return pageInfo;
+    }
+
+    @Override
+    public void registUser(SysUser user) {
+        String userId = IdUtil.simpleUUID();
+        user.setId(userId);
+        user.setIsDel(0);
+        user.setJoinDate(new Date());
+        String roleId = roleMapper.selectRoleIdByRoleType(2);
+        SysUserRole userRole = new SysUserRole();
+        userRole.setId(IdUtil.simpleUUID());
+        userRole.setUserId(userId);
+        userRole.setRoleId(roleId);
+        userRole.setIsDel(0);
+        userRoleMapper.insertUserRole(userRole);
+        userMapper.insertUser(user);
     }
 }

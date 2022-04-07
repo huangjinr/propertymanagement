@@ -2,10 +2,12 @@ package cn.property.controller;
 
 
 import cn.property.model.HouseProperty;
+import cn.property.model.SysUser;
 import cn.property.service.HousePropertyService;
 import cn.property.utils.ReturnUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,7 +35,11 @@ public class HousePropertyController {
 
     @RequestMapping(value = "selectHousePropertyList", method = {RequestMethod.GET})
     @ResponseBody
-    public ModelMap selectHousePropertyList(HouseProperty houseProperty,Integer page,Integer limit) {
+    public ModelMap selectHousePropertyList(Authentication authentication, HouseProperty houseProperty, Integer page, Integer limit) {
+        SysUser principal = (SysUser) authentication.getPrincipal();
+        if (principal.getSysRole().getRoleType() == 2){
+            houseProperty.setUserId(principal.getId());
+        }
         PageInfo<HouseProperty> housePropertyList = housePropertyService.selectHousePropertyList(houseProperty,page,limit);
         return ReturnUtil.Success("查询成功", housePropertyList.getList(), housePropertyList.getTotal());
     }

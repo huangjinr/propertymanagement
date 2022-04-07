@@ -32,7 +32,10 @@
         left join building b on c.building_id = b.id and b.is_del = 0
         where c.is_del = 0
         <if test="carportNum != null and carportNum != ''">
-            and carport_num = #{carportNum}
+            and c.carport_num = #{carportNum}
+        </if>
+        <if test="userId != null and userId != ''">
+            and c.user_id = #{userId}
         </if>
     </select>
 

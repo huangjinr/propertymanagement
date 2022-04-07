@@ -83,7 +83,7 @@ layui.define(['table', 'form', 'treetable', 'eleTree'], function (exports) {
             layer.confirm('确定删除吗？', function (index) {
 
                 $.ajax({
-                    url: "/user/deleteUserByIds",
+                    url: "/permission/deletePermissionById",
                     type: "get",
                     async: false,
                     traditional: true,// 这里设置为true,不然后台接收到的参数会带上[]，导致数据无法正常接收

@@ -56,7 +56,7 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter implements
                 .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/user/login","/layuiadmin/**","/login").permitAll()
+                .antMatchers("/","/user/login","/layuiadmin/**","/login","/views/user/reg.html","/register/insertUser").permitAll()
                 .anyRequest().authenticated()
                 //.anyRequest().access("@myAccessImpl.hasPermission(request,authentication)")
                 .and()

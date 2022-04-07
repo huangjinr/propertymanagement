@@ -37,7 +37,11 @@ public class MaintainController {
 
     @RequestMapping(value = "selectMaintainList", method = {RequestMethod.GET})
     @ResponseBody
-    public ModelMap selectMaintainList(Maintain maintain, Integer page, Integer limit) {
+    public ModelMap selectMaintainList(Authentication authentication,Maintain maintain, Integer page, Integer limit) {
+        SysUser principal = (SysUser) authentication.getPrincipal();
+        if (principal.getSysRole().getRoleType() == 2){
+            maintain.setUserId(principal.getId());
+        }
         PageInfo<Maintain> maintainList = maintainService.selectMaintainList(maintain,page,limit);
         return ReturnUtil.Success("查询成功", maintainList.getList(), maintainList.getTotal());
     }
